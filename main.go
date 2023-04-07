@@ -27,11 +27,15 @@ func TimeStr(sec int) (res string) {
 
 func main() {
 
+	// Start needs to be assigned when the process starts
 	start := time.Now()                                                   // get current time
 	stu := int64(time.Nanosecond) * start.UnixNano() / int64(time.Second) // convert to unix time in seconds
 
+	// end needs to be assigned when time limit is assigned.
 	end := start.Add(time.Minute * 5)                                   // add end time in minutes to the current time
 	etu := int64(time.Nanosecond) * end.UnixNano() / int64(time.Second) // convert to unix time in seconds
+
+	ez := float64(etu - stu) // end time - start time for the timer
 
 	// test TimeStr - works
 	/*
@@ -44,16 +48,19 @@ func main() {
 	//tu := int64(time.Nanosecond) * timeT.UnixNano() / int64(time.Millisecond)
 
 	for i := 0; i < 300; i++ {
+
+		// needs to be set when checking the time
 		n := time.Now()                                                   // get current time
 		ntu := int64(time.Nanosecond) * n.UnixNano() / int64(time.Second) // convert to unix time in seconds
 
-		ez := float64(etu - stu) // end time - start time for the timer
 		nz := float64(ntu - stu) // current time - start time for the timer
-		rt := nz / ez            // ratio of current time to end time
+		tt := nz / ez
+		rt := tt * 100.0 // ratio of current time to end time
+		// now I have a percent completion
 
-		fmt.Println("ez:", ez, "nz:", nz, "rt:", rt)
+		//fmt.Println("ez:", ez, "nz:", nz, "rt:", rt)
 
-		fmt.Println("ratio:", rt)
+		fmt.Printf("ratio: %5.2f %6.3f\n", rt, tt)
 
 		time.Sleep(1 * time.Second)
 	}
